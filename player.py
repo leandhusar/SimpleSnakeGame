@@ -34,6 +34,12 @@ def checkHead(body, gmap, snake_dir, food_pos):
     elif checkAutocollide(body) == True:
         return 2                             #2 means player loses the game by colliding with itself
 
+'''
+This function copies every square of the snake body by "pulling back" every
+square position of the body, finishing before the last element (the snake head).
+Next, it will be append a new head depending on the direction and the head used
+before replace it
+'''
 def moveSnake(body, direction):
     moveUntilHead(body)
     if direction == UP:
@@ -49,12 +55,21 @@ def moveUntilHead(body):
     for i in range(len(body)-1):
         body[i] = body[i+1][:]
 
+'''
+It check if the head is not colliding with any part of the snake
+ignoring its head
+'''
 def checkAutocollide(body):
     for i in range(len(body)-1):
         if body[-1] == body[i]:
             return True
     return False
 
+'''
+If the selected NEW direction is opposite to the ACTUAL direction
+it returns the actual directions instead the new one. Else, it return
+the new direction
+'''
 def changeDirection(actual, new_direction):
     if actual == UP:
         if new_direction == DOWN:
@@ -70,5 +85,8 @@ def changeDirection(actual, new_direction):
             return actual
     return new_direction
 
+'''
+Insert the new tail in the 0 index list
+'''
 def addSquareBody(body, square_pos):
     body.insert(0, square_pos[:])

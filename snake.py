@@ -4,8 +4,8 @@ from food import *
 from player import *
 
 #Constants
-floor_color = (8, 8, 8)   #surface color
-food_color = (200, 35, 30)       #prey color
+floor_color = (8, 8, 8)        #surface color
+food_color = (200, 35, 30)     #prey color
 brick_color = (50, 50, 50)     #Edge color
 
 #Clock timer
@@ -14,6 +14,7 @@ sleep = 30
 
 #Player points
 points = 0
+#This var enables the insert from tail of a new square
 grew_enabled = False
 #Tail of the snake
 tail = [0, 0]
@@ -27,6 +28,15 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Simple Snake Game")
 
 while still_alive:
+    '''
+    First it checks if the body will be grwing for this for grow from
+    the tail. If its value is FALSE (as game is starting) it directly will be
+    catch the current direction of the player.
+
+    It fills the screen. Then, it draws the walls, the snake and the food.
+    
+    (Read the next section)
+    '''
     if grew_enabled:
         addSquareBody(serpent, tail)
         grew_enabled = False
@@ -34,19 +44,30 @@ while still_alive:
     current_dir = direction
     window.fill(floor_color)
     
-    #Drawing the walls
+    #Drawing the walls using the map matrix from gameMap.py
     for y in range(40):
         for x in range(40):
             if gmap[x][y] == 1:
                 squareDraw(window, brick_color, (x*20, y*20), 20)
     
-    #Drawing the snake player
+    #Drawing the snake player (read snake.py)
     snakeDraw(window, snake_color, serpent)
     
-    #Drawing the food
+    #Drawing the food. Using the food position only
     circleDraw(window, food_color, (food_position[0]*20 + 10, food_position[1]*20 + 10), 9)
 
-    #View of the snake movements
+    '''
+    For now, it executes the snake movement in funtion of the current direction.
+    Next, it takes the SNAKE_STATE, that refers to what thing is under the snake head.
+    It would be read like this:
+
+    0: Turns off the STILL:ALIVE var. It means the player loses by colliding
+       with a wall
+    1: Add a point when player is over the food, activates the growing of the snake,
+       stores the snake tail at TAIL position list, and change the food position
+    2: Just like 0
+    '''
+    #View of the snake movements (read this function at player.py)
     moveSnake(serpent, direction)
 
     snake_state = checkHead(serpent, gmap, direction, food_position)
@@ -66,6 +87,10 @@ while still_alive:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        #In the button events, it changes the global direction. Previously the game
+        #stored the current position, that one is used to compare the direction, in
+        #order to prevent the possibility of the snake going in the opposite direction
+        #immediately (read player.py)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 direction = LEFT

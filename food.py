@@ -1,10 +1,11 @@
 import random
 
+#First it selects a random position for the food
 foodX = random.randint(1, 38)
 foodY = random.randint(1, 38)
 food_position = [foodX, foodY]
 
-#Funcion para cambiar la direccion de la comida
+#Function that changes the food position without getting over any part of the snake
 def changeFoodPosition(snake_body):
     foodX, foodY = random.randint(1, 38), random.randint(1, 38)
     temp_food = [foodX, foodY]
@@ -12,8 +13,7 @@ def changeFoodPosition(snake_body):
         foodX, foodY = random.randint(1, 38), random.randint(1, 38)
         temp_food = [foodX, foodY]
     return temp_food
-
-#Esta funcion verifica que ninguna parte del cuerpo de la serpiente coincida con ella   
+ 
 def checkCoincidence(snake_body, temp_food):
     for square in snake_body:
         if square == temp_food:
