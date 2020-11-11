@@ -14,6 +14,9 @@ sleep = 30
 
 #Player points
 points = 0
+grew_enabled = False
+#Tail of the snake
+tail = [0, 0]
 
 #The game map has a square of 800 units (pixels)
 WIDTH = 800
@@ -24,6 +27,10 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Simple Snake Game")
 
 while still_alive:
+    if grew_enabled:
+        addSquareBody(serpent, tail)
+        grew_enabled = False
+
     current_dir = direction
     window.fill(floor_color)
     
@@ -47,6 +54,9 @@ while still_alive:
         still_alive = False
     elif snake_state == 1:
         points += 1
+        grew_enabled = True
+        tail[0] = serpent[0][0]
+        tail[1] = serpent[0][1]
         food_position = changeFoodPosition(serpent)
     elif snake_state == 2:
         still_alive = False

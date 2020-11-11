@@ -69,3 +69,6 @@ def changeDirection(actual, new_direction):
         if new_direction == RIGHT:
             return actual
     return new_direction
+
+def addSquareBody(body, square_pos):
+    body.insert(0, square_pos[:])
