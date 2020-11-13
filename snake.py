@@ -27,7 +27,40 @@ pygame.init()
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Simple Snake Game")
 
+show_start = True
+show_game_over = False
+start_image = pygame.image.load("images/instructions.png")
+game_over_image = pygame.image.load("images/game_over.png")
+
 while still_alive:
+    #While show_start is True, the instructions will be shown to the player
+    #It will be happening until player press ENTER key
+    while show_start:
+        window.blit(start_image, (0, 0))
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            #In the button events, it changes the global direction. Previously the game
+            #stored the current position, that one is used to compare the direction, in
+            #order to prevent the possibility of the snake going in the opposite direction
+            #immediately (read player.py)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    show_start = False
+        pygame.display.update()
+
+    #While show_game_over is True, the game over image will be shown
+    #Close the game .-.
+    while show_game_over:
+        window.fill((0, 0, 0))
+        window.blit(game_over_image, (0, 0))
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.update()
+
     '''
     First it checks if the body will be grwing for this for grow from
     the tail. If its value is FALSE (as game is starting) it directly will be
@@ -61,7 +94,7 @@ while still_alive:
     Next, it takes the SNAKE_STATE, that refers to what thing is under the snake head.
     It would be read like this:
 
-    0: Turns off the STILL:ALIVE var. It means the player loses by colliding
+    0: Turns on the SHOW_GAME_OVER var. It means the player loses by colliding
        with a wall
     1: Add a point when player is over the food, activates the growing of the snake,
        stores the snake tail at TAIL position list, and change the food position
@@ -72,7 +105,7 @@ while still_alive:
 
     snake_state = checkHead(serpent, gmap, direction, food_position)
     if snake_state == 0:
-        still_alive = False
+        show_game_over = True
     elif snake_state == 1:
         points += 1
         grew_enabled = True
@@ -80,7 +113,7 @@ while still_alive:
         tail[1] = serpent[0][1]
         food_position = changeFoodPosition(serpent)
     elif snake_state == 2:
-        still_alive = False
+        show_game_over = True
 
     #Events
     for event in pygame.event.get():
