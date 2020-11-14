@@ -56,9 +56,25 @@ while still_alive:
         window.fill((0, 0, 0))
         window.blit(game_over_image, (0, 0))
         for event in pygame.event.get():
+            #Los eventos que existen son 'keydown' y 'keyup' y 'mouse motion' como principales
+            #print (event)
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            #Si se preciona una tecla y esta es enter
+            elif event.type==KEYDOWN:
+                if int(event.key)==13:
+                    print ("Banda acabo de dar enter")
+                    try:
+                        pygame.quit()
+                        sys.exit()
+                        #TODO - Llamar la función que reinicia el juego
+                    except:
+                        print ("Ay me caí")
+                #Presiona esc
+                elif int(event.key)==27:
+                    pygame.quit()
+                    sys.exit()
         pygame.display.update()
 
     '''
