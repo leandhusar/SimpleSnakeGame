@@ -32,10 +32,11 @@ show_game_over = False
 start_image = pygame.image.load("images/instructions.png")
 game_over_image = pygame.image.load("images/game_over.png")
 
-while still_alive:
-    #While show_start is True, the instructions will be shown to the player
-    #It will be happening until player press ENTER key
-    while show_start:
+#While show_start is True, the instructions will be shown to the player
+ #It will be happening until player press ENTER key
+def pantallaDeInicio ():
+    show_start = True
+    while show_start:        
         window.blit(start_image, (0, 0))
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -50,15 +51,43 @@ while still_alive:
                     show_start = False
         pygame.display.update()
 
+
+pantallaDeInicio ()
+while still_alive:
     #While show_game_over is True, the game over image will be shown
     #Close the game .-.
     while show_game_over:
         window.fill((0, 0, 0))
         window.blit(game_over_image, (0, 0))
         for event in pygame.event.get():
+            #Los eventos que existen son 'keydown' y 'keyup' y 'mouse motion' como principales
+            #print (event)
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            #Si se preciona una tecla y esta es enter
+            elif event.type==KEYDOWN:
+                if int(event.key)==13:
+                    try:
+                        #Preguntar por que conchas 'show_game_over' no se puede modificar desde fuera
+                        show_game_over = False
+                        still_alive = True
+                        #Player points
+                        points = 0
+                        #This var enables the insert from tail of a new square
+                        grew_enabled = False
+                        #Tail of the snake
+                        tail = [0, 0]
+                        pantallaDeInicio ()
+                        serpent = [[1, 1], [2, 1], [3, 1]]
+                        direction = RIGHT
+                        #TODO - Llamar la función que reinicia el juego
+                    except:
+                        print ("Ay me caí")
+                #Presiona esc
+                elif int(event.key)==27:
+                    pygame.quit()
+                    sys.exit()
         pygame.display.update()
 
     '''
