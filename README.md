@@ -6,6 +6,6 @@ In order to run this game without troubles first install Python 3.8. Then instal
 
 `pip install pygame`
 
-Finally, run the file snake.py. That one is the main programm. 
+Finally, run the file main.py. That one is the main programm. 
 
 ###### Read the comments written in each .py file.
