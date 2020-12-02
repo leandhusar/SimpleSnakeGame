@@ -1,8 +1,8 @@
-# Snake
+# Simple Snake Game
 
-Well, this is a simple snake game bilt in Python, by *Leandro Hurtado Salazar* & *John Andersson Moreno*.
+Well, this is a simple snake game bilt in Python, by *Leandro Hurtado Salazar*.
 
-In order to run this game without troubles first install Python. Then install Pygame using the command (windows cmd):
+In order to run this game without troubles first install Python 3.8. Then install Pygame using the command (windows cmd):
 
 `pip install pygame`
 
