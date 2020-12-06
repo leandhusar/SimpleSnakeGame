@@ -75,3 +75,22 @@ class Snake:
     def addBody(self):
         self.body.insert(0, self.tail[:])
         self.grew_enabled = False
+    
+    def showTongue(self, window):
+        tongue = 'images/tongue_' + self.direction + '.png'
+        if self.direction == UP:
+            position = [self.body[-1][0], self.body[-1][1]-1]
+        elif self.direction == DOWN:
+            position = [self.body[-1][0], self.body[-1][1]+1]
+        elif self.direction == RIGHT:
+            position = [self.body[-1][0]+1, self.body[-1][1]]
+        elif self.direction == LEFT:
+            position = [self.body[-1][0]-1, self.body[-1][1]]
+        drawTongue(window, (position[0]*20, position[1]*20), tongue)
+        return [position[0], position[1]]
+
+    def checkTongue(self, position, game_map, food_position):
+        if game_map[position[1]][position[0]] == 1:
+            return 0
+        elif position == food_position:
+            return 1   

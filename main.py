@@ -18,6 +18,19 @@ def showInstructions(window):
                     show_start = False
         pygame.display.update()
 
+def showGameOver(window):
+    show_start = True
+    while show_start:
+        window.blit(pygame.image.load('images\game_over.png'), (0, 0))
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    show_start = False
+        pygame.display.update()
+
 def level1():
     clock, sleep = pygame.time.Clock(), 12
     game_over = False
@@ -70,10 +83,22 @@ def level1():
                     snake.changeDirection(DOWN)
                 elif event.key == pygame.K_UP:
                     snake.changeDirection(UP)
-
+                elif event.key == pygame.K_SPACE:
+                    tongue_position = snake.showTongue(window)
+                    tongue_state = snake.checkTongue(tongue_position, game_map.game_map, pigeon.position)
+                    if tongue_state == ON_WALL:
+                        snake.is_alive = False
+                        game_over = True
+                    elif tongue_state == ON_PIGEON:
+                        snake.grew_enabled = True
+                        score += 1
+                        pygame.mixer.music.play()
+                        sleep += 2
+                        pigeon.changePosition(snake.body, game_map.game_map)
         clock.tick(sleep)
         pygame.display.update()
-    return score
+
+    return (score, snake.is_alive)
 
 def level2():
     clock, sleep = pygame.time.Clock(), 12
@@ -129,16 +154,15 @@ def level2():
 
         clock.tick(sleep)
         pygame.display.update()
-    return score   
+    
+    return (score, snake.is_alive)
 
 def main():
-    try:
-        score_level1 = level1()
-    except:
-        score_level1 = 0
-    
-    if score_level1 >= 5:
-        level2()
+    restart = True
+    while restart:
+        level_1 = level1()
+        if level_1[1] == True:
+            level_2 = level2()
 
 if __name__ == "__main__":
     main()

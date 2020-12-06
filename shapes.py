@@ -14,3 +14,6 @@ def drawBrick(window, position):
 
 def drawPigeon(window, position):
     window.blit(pygame.image.load('images/pigeon.png'), position)
+
+def drawTongue(window, position, tongue):
+    window.blit(pygame.image.load(tongue), position)
