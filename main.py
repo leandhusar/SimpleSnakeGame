@@ -18,19 +18,6 @@ def showInstructions(window):
                     show_start = False
         pygame.display.update()
 
-def showGameOver(window):
-    show_start = True
-    while show_start:
-        window.blit(pygame.image.load('images\game_over.png'), (0, 0))
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    show_start = False
-        pygame.display.update()
-
 def level1():
     clock, sleep = pygame.time.Clock(), 12
     game_over = False
@@ -157,12 +144,33 @@ def level2():
     
     return (score, snake.is_alive)
 
+def showGameOver():
+    pygame.init()
+    window = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption('Simple Snake Game')
+
+    show_start = True
+    while show_start:
+        window.blit(pygame.image.load('images\game_over.png'), (0, 0))
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return False
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    return True
+        pygame.display.update()
+
 def main():
     restart = True
     while restart:
         level_1 = level1()
         if level_1[1] == True:
             level_2 = level2()
+            if level_2[1] == False:
+                restart = showGameOver()
+        else: restart = showGameOver()
 
 if __name__ == "__main__":
     main()
