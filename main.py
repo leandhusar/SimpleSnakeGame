@@ -5,6 +5,7 @@ from pigeon import *
 WIDTH = 800
 HEIGHT = 800
 
+#This funtion needs a window to get the screen to show the image of instructions
 def showInstructions(window):
     show_start = True
     while show_start:
@@ -19,6 +20,9 @@ def showInstructions(window):
         pygame.display.update()
 
 def level1():
+    #First, it takes the timer and set GAME_OVER var to false, score equals 0,
+    #creates the snake, import map game and the audio clip to be use when the pigeon is reached
+    #Shows the instructions before the game starts
     clock, sleep = pygame.time.Clock(), 12
     game_over = False
 
@@ -35,6 +39,12 @@ def level1():
     pigeon = Pigeon()
     pygame.mixer.music.load('audio/chicken.mp3')
 
+    #Change the the value X from score < X in order to take a short performance sample :)
+    #Checks if the snake is able to grow its body. Then, draws the map, walls and snake body
+    #moves the snake and checks whats under its head:
+    #If its over a wall or on itself, the game will finish
+    #If its over a pigeon, it plays the preloaded sound (chicken XD), switchs the grow ability to true, adds a point and augments the speed in 2 units
+    #and changes the pigeons position
     while snake.is_alive and score < 5:
         if snake.grew_enabled:
             snake.addBody()
@@ -56,7 +66,10 @@ def level1():
             sleep += 2
             pigeon.changePosition(snake.body, game_map.game_map)
 
-        #Event
+        #Events:
+        #Snake will move to the direction of the pressed key (its intuitive to read)
+        #When spacebar key is pressed, snake sticks out its tongue.
+        #Unlike the head, with the tongue it is verified that the tongue is on the wall or on the pigeon
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -87,6 +100,7 @@ def level1():
 
     return (score, snake.is_alive)
 
+#Level 2 seems like level one. It only changes the map
 def level2():
     clock, sleep = pygame.time.Clock(), 12
     game_over = False
@@ -144,6 +158,7 @@ def level2():
     
     return (score, snake.is_alive)
 
+#Show game over returns a boolean value. It depends on the R key is pressed
 def showGameOver():
     pygame.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -162,6 +177,9 @@ def showGameOver():
                     return True
         pygame.display.update()
 
+#First, evalue if player wants to restart the game (on both levels)
+#level_1 takes the returned value of level1. If snake is still alive, goes to level2 and repeats the same procedure
+#In another case, it executes the showGameOver in order to ask to the player if it wants to play aganin
 def main():
     restart = True
     while restart:

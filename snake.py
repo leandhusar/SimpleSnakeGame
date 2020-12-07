@@ -46,6 +46,9 @@ class Snake:
                 return True
         return False
 
+    #moves the snake until its head. Then, checks the direction and adds 1 unit to the head position
+    #depending on the direction
+    #Finaly updates the snake tale position
     def move(self):
         self.moveUntilHead()
         if self.direction == UP:
@@ -62,6 +65,8 @@ class Snake:
         for i in range(len(self.body)-1):
             self.body[i] = self.body[i+1][:]
         
+    #It verifies if the position the snake will take isnt opposite to the actual
+    #It prevents errors
     def changeDirection(self, new_direction):
         if self.direction == UP and new_direction != DOWN:
             self.direction = new_direction
@@ -72,10 +77,13 @@ class Snake:
         elif self.direction == LEFT and new_direction != RIGHT:
             self.direction = new_direction
     
+    #Inserts a square for the snake just in the tale, and switches the grow ability to false
     def addBody(self):
         self.body.insert(0, self.tail[:])
         self.grew_enabled = False
     
+    #It gives the image path in order to set the right picture to be seen in front of the snake head
+    #Uses the same formula as move the snake
     def showTongue(self, window):
         tongue = 'images/tongue_' + self.direction + '.png'
         if self.direction == UP:

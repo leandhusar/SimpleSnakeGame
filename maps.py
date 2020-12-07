@@ -1,5 +1,8 @@
 from shapes import *
 
+#on the map list[lists], value 1 represents a brick, and a set of bricks shape a wall
+#every list contains 40 values to shape a 40x40 square unit map
+#there are 2 default maps to be used
 class GameMap:
     def __init__(self):
         self.game_map = []
